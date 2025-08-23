@@ -1,0 +1,5 @@
+supabase
+openai
+streamlit
+pypdf
+requests
