@@ -217,7 +217,9 @@ if 'messages' not in st.session_state:
 # --- 🤖 Groq Config ---
 #groq_key = "gsk_----"
 groq_key = st.secrets["groq_key"]
-client = OpenAI(api_key=groq_key, base_url="https://api.groq.com/openai/v1")
+client = OpenAI(api_key=groq_key, base_url="https://api.openai.com/v1")
+
+#client = OpenAI(api_key=groq_key, base_url="https://api.groq.com/openai/v1")
 
 #idToken = st.secrets["llm_gateway_token"]
 
