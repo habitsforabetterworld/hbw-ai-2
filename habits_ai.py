@@ -21,16 +21,7 @@ from supabase import create_client, Client
 import json, logging, os, requests
 from openai import OpenAI
 
-import streamlit as st
-from supabase import create_client, Client
-from io import StringIO
-from pypdf import PdfReader 
-import requests
-import time
-import json
-import uuid
 import logging
-from openai import OpenAI
 
 
 
@@ -224,8 +215,11 @@ if 'messages' not in st.session_state:
     st.session_state.messages = []
 
 # --- 🤖 Groq Config ---
-groq_key = "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"
+#groq_key = "gsk_----"
+groq_key = st.secrets["groq_key"]
 client = OpenAI(api_key=groq_key, base_url="https://api.groq.com/openai/v1")
+
+idToken = st.secrets["llm_gateway_token"]
 
 def call_gateway(system_prompt, assistant_prompt, user_prompt):
     """Calls the LLM Gateway with system, assistant, and user prompts."""
@@ -261,8 +255,8 @@ def call_gateway_BYOM(messages_list):
 
 # Database setup
 if 'supabase_initialized' not in globals():
-    spb_url = "https://wnlerrlrwdgxruiwvkvv.supabase.co"
-    spb_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndubGVycmxyd2RneHJ1aXd2a3Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1NDg5NDUsImV4cCI6MjA3MDEyNDk0NX0.iZMvLhZyq_u2D36BhNvET9DHe_HPzea5VN4PAqmaXDY"
+    spb_key = st.secrets["spb_key"]
+    spb_url = st.secrets["spb_url"]
     supabase: Client = create_client(spb_url, spb_key)
     db_table = 'website_scrape'
     supabase_initialized = True
