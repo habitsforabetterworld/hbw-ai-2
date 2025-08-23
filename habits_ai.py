@@ -219,7 +219,7 @@ if 'messages' not in st.session_state:
 groq_key = st.secrets["groq_key"]
 client = OpenAI(api_key=groq_key, base_url="https://api.groq.com/openai/v1")
 
-idToken = st.secrets["llm_gateway_token"]
+#idToken = st.secrets["llm_gateway_token"]
 
 def call_gateway(system_prompt, assistant_prompt, user_prompt):
     """Calls the LLM Gateway with system, assistant, and user prompts."""
