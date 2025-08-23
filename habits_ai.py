@@ -227,7 +227,8 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
     """Calls the LLM Gateway with system, assistant, and user prompts."""
     try:
         response = client.chat.completions.create(
-            model="openai/gpt-oss-120b",
+            #model="openai/gpt-oss-120b",
+             model="openai/gpt-4o-mini" ,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "assistant", "content": assistant_prompt},
