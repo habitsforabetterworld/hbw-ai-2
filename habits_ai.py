@@ -218,7 +218,6 @@ if 'messages' not in st.session_state:
 #groq_key = "gsk_----"
 groq_key = st.secrets["groq_key"]
 client = OpenAI(api_key=groq_key, base_url="https://api.openai.com/v1")
-
 #client = OpenAI(api_key=groq_key, base_url="https://api.groq.com/openai/v1")
 
 #idToken = st.secrets["llm_gateway_token"]
@@ -228,7 +227,7 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
     try:
         response = client.chat.completions.create(
             #model="openai/gpt-oss-120b",
-             model="openai/gpt-4o-mini" ,
+            model="openai/gpt-4o-mini" ,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "assistant", "content": assistant_prompt},
