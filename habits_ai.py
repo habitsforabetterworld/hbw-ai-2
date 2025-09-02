@@ -226,8 +226,8 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
     """Calls the LLM Gateway with system, assistant, and user prompts."""
     try:
         response = client.chat.completions.create(
-            #model="openai/gpt-oss-120b",
-            model="gpt-4o-mini",
+            model="openai/gpt-oss-120b",
+            #model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "assistant", "content": assistant_prompt},
@@ -245,8 +245,8 @@ def call_gateway_BYOM(messages_list):
     """Calls the LLM Gateway with a custom list of messages."""
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            #model="openai/gpt-oss-120b",
+            #model="gpt-4o-mini",
+            model="openai/gpt-oss-120b",
             messages=messages_list,
             temperature=0.4
         )
@@ -412,7 +412,7 @@ if user_input:
     
     # Get AI response with token tracking
     with st.spinner("Thinking..."):
-        ai_response, total_tokens = resolve_query(db_table, 3, user_input)
+        ai_response, total_tokens = resolve_query(db_table, 8, user_input)
     
     # Add AI response to conversation
     if ai_response:
