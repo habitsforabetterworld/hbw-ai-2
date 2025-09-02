@@ -227,7 +227,7 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
     try:
         response = client.chat.completions.create(
             #model="openai/gpt-oss-120b",
-            model="openai/gpt-4o-mini",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "assistant", "content": assistant_prompt},
@@ -245,7 +245,7 @@ def call_gateway_BYOM(messages_list):
     """Calls the LLM Gateway with a custom list of messages."""
     try:
         response = client.chat.completions.create(
-            model="openai/gpt-4o-mini",
+            model="gpt-4o-mini",
             #model="openai/gpt-oss-120b",
             messages=messages_list,
             temperature=0.4
