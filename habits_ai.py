@@ -412,7 +412,7 @@ if user_input:
     
     # Get AI response with token tracking
     with st.spinner("Thinking..."):
-        ai_response, total_tokens = resolve_query(db_table, 8, user_input)
+        ai_response, total_tokens = resolve_query(db_table, 3, user_input)
     
     # Add AI response to conversation
     if ai_response:
