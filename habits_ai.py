@@ -459,7 +459,6 @@ if user_input:
         total_tokens = total_input_tokens + total_output_tokens
 
         log_query(session_id, user_input, ai_response, global_messages, total_input_tokens, total_output_tokens, total_tokens)
-        #data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_query": user_input, "llm_response": ai_response, "messages": global_messages, "input_tokens": total_input_tokens, "output_tokens": total_output_tokens, "total_tokens": total_tokens}).execute()
     else:
         error_message = "I'm sorry, I couldn't process your request at the moment. Please try again."
         st.session_state.messages.append({"role": "assistant", "content": error_message})
@@ -468,7 +467,6 @@ if user_input:
         total_tokens = 0
 
         log_query(session_id, user_input, ai_response, error_message, total_input_tokens, total_output_tokens, total_tokens)
-        #data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_query": user_input, "llm_response": error_message, "messages": global_messages, "input_tokens": total_input_tokens, "output_tokens": total_output_tokens, "total_tokens": total_tokens}).execute()
         
     # Rerun to display the new messages
     st.rerun()
