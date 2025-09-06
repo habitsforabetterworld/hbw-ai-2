@@ -205,8 +205,6 @@ st.markdown("""
 ## GLOBAL VARIABLES
 
 global_messages = []
-global_input_tokens = 0
-global_output_tokens = 0
 global_max_articles = 2
 
 
@@ -326,25 +324,28 @@ def knowledge_search(table_name, article_limit, query):
         return None
     
     if id_list:
-        knowledge_context = get_details_from_id_list(table_name, id_list)
+        knowledge_context = get_details_from_id_list(table_name, id_list), input_tokens, output_tokens
     else:
         knowledge_context = []
-    return knowledge_context
+    return knowledge_context, input_tokens, output_tokens
 
 
 def resolve_query(db_table, article_limit, query):
     
     global global_messages
     
-    knowledge_context = knowledge_search(db_table, article_limit, query)
+    knowledge_context, input_tokens_kno, output_tokens_kno = knowledge_search(db_table, article_limit, query)
     system_prompt = f"You are a helpful assistant working for Habits for a Better World. Answer the users query using only information found in the CONTEXT provided. Answer in polite, professional and conversational manner. Feel free to elaborate using the context and provide email addresses or links where relevant. If you are unable to answer their query or their query is off topic, make a clean joke (maybe a pun on what they said) then playfully guide them back to talking about Habits for a Better World. CONTEXT: {knowledge_context}"
     
     messages_list = [{"role": "system", "content": system_prompt}]
     messages_list.append({"role": "user", "content": query})
 
     global_messages = messages_list
-    response, input_tokens, output_tokens = call_gateway_BYOM(messages_list)
-    return response, input_tokens, output_tokens
+    response, input_tokens_res, output_tokens_res = call_gateway_BYOM(messages_list)
+    total_input_tokens = input_tokens_kno + input_tokens_res
+    total_output_tokens = output_tokens_kno + output_tokens_res
+    
+    return response, total_input_tokens, total_output_tokens
 
 
 ##### - NOT CURRENTLY USED #### VVVVV
@@ -433,7 +434,7 @@ if user_input:
     
     # Get AI response with token tracking
     with st.spinner("Thinking..."):
-        ai_response, input_tokens, output_tokens = resolve_query(db_table, global_max_articles, user_input)
+        ai_response, total_input_tokens, total_output_tokens = resolve_query(db_table, global_max_articles, user_input)
     
     # Add AI response to conversation
     if ai_response:
@@ -446,7 +447,7 @@ if user_input:
         #    llm_response=ai_response,
         #    total_tokens=total_tokens
         #)
-        data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_name": "", "user_query": user_input, "llm_response": ai_response, "full_prompt": "", "messages": global_messages}).execute()
+        data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_name": "", "user_query": user_input, "llm_response": ai_response, "full_prompt": "", "messages": global_messages, "input_tokens": total_input_tokens, "output_tokens": total_output_tokens}).execute()
     else:
         error_message = "I'm sorry, I couldn't process your request at the moment. Please try again."
         st.session_state.messages.append({"role": "assistant", "content": error_message})
@@ -458,8 +459,8 @@ if user_input:
         #    llm_response=error_message,
         #    total_tokens=0
         #)
-        data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_name": "", "user_query": user_input, "llm_response": error_message, "full_prompt": "", "messages": global_messages}).execute()
-    
+        data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_name": "", "user_query": user_input, "llm_response": ai_response, "full_prompt": "", "messages": global_messages, "input_tokens": total_input_tokens, "output_tokens": total_output_tokens}).execute()
+        
     # Rerun to display the new messages
     st.rerun()
 
