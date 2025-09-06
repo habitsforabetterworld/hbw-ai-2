@@ -1,15 +1,4 @@
-from supabase import create_client, Client
-from io import StringIO
-from pypdf import PdfReader 
-import requests
-import time
-import json
-import uuid
-import logging
-from openai import OpenAI
-
 import streamlit as st
-#from openai import AzureOpenAI
 from supabase import create_client, Client
 from io import StringIO
 from pypdf import PdfReader 
@@ -17,9 +6,9 @@ import requests
 import time
 import json
 import uuid
-from supabase import create_client, Client
-import json, logging, os, requests
+import os
 from openai import OpenAI
+#from openai import AzureOpenAI
 
 import logging # REMEBER LOGGIN DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
 
