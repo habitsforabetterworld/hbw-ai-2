@@ -239,14 +239,15 @@ def log(session_id, message):
 def call_gateway(system_prompt, assistant_prompt, user_prompt):
     """Calls the LLM Gateway with system, assistant, and user prompts."""
     try:
-        response = client.chat.completions.create(
-            model="openai/gpt-oss-120b",
-            #model="gpt-4o-mini",
-            messages=[
+        messages = [
                 {"role": "system", "content": system_prompt},
                 {"role": "assistant", "content": assistant_prompt},
                 {"role": "user", "content": user_prompt}
-            ],
+            ]
+        response = client.chat.completions.create(
+            model="openai/gpt-oss-120b",
+            #model="gpt-4o-mini",
+            messages=messages,
             temperature=0.4
         )
         #total_tokens = response.usage.total_tokens
