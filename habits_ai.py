@@ -333,7 +333,7 @@ def knowledge_search(table_name, article_limit, query):
     else:
         return None, 0, 0
     
-    if len(id_list) <= 1:
+    if id_list:
         knowledge_context = get_details_from_id_list(table_name, id_list), input_tokens, output_tokens
     else:
         knowledge_context = []
