@@ -327,13 +327,13 @@ def knowledge_search(table_name, article_limit, query):
             response_data = json.loads(json_string)
             id_list = [item['id'] for item in response_data]
         except json.JSONDecodeError as e:
-            return None
+            return e, 0, 0
         except TypeError as e:
-            return None
+            return e, 0, 0
     else:
         return None, 0, 0
     
-    if id_list:
+    if len(id_list) <= 1:
         knowledge_context = get_details_from_id_list(table_name, id_list), input_tokens, output_tokens
     else:
         knowledge_context = []
