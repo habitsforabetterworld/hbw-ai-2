@@ -11,10 +11,20 @@ from openai import OpenAI
 #from openai import AzureOpenAI
 
 
+## GLOBAL Settings
+global_resolution_prompt_version = 1
+global_max_articles = 2
+global_temperature = 0.4
+global_model = "openai/gpt-oss-120b"
+
+
 
 ######### THINGS TO IMPROVE
 
-# Code clean up
+
+
+
+
 
 # Custom CSS for modern chat interface
 st.markdown("""
@@ -193,14 +203,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-## GLOBAL Settings
-global_resolution_prompt_version = 1
-global_max_articles = 2
-global_temperature = 0.4
-global_model = "openai/gpt-oss-120b"
 
 
-## Global Variables
+
+## Initialize Global Variables
 global_messages = []
 
 
