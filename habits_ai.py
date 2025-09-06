@@ -420,24 +420,25 @@ if user_input:
         st.session_state.messages.append({"role": "assistant", "content": ai_response})
         
         # Log conversation to Supabase
-        log_conversation_to_supabase(
-            session_id=session_id,
-            user_query=user_input,
-            llm_response=ai_response,
-            total_tokens=total_tokens
-        )
-        
+        #log_conversation_to_supabase(
+        #    session_id=session_id,
+        #    user_query=user_input,
+        #    llm_response=ai_response,
+        #    total_tokens=total_tokens
+        #)
+        data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_name": "", "user_query": user_input, "llm_response": ai_response, "full_prompt": ""}).execute()
     else:
         error_message = "I'm sorry, I couldn't process your request at the moment. Please try again."
         st.session_state.messages.append({"role": "assistant", "content": error_message})
         
         # Log error response too
-        log_conversation_to_supabase(
-            session_id=session_id,
-            user_query=user_input,
-            llm_response=error_message,
-            total_tokens=0
-        )
+        #log_conversation_to_supabase(
+        #    session_id=session_id,
+        #    user_query=user_input,
+        #    llm_response=error_message,
+        #    total_tokens=0
+        #)
+        data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_name": "", "user_query": user_input, "llm_response": error_message, "full_prompt": ""}).execute()
     
     # Rerun to display the new messages
     st.rerun()
