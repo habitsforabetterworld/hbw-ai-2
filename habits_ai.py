@@ -326,7 +326,12 @@ def resolve_query(db_table, article_limit, query):
     messages_list = [{"role": "system", "content": system_prompt}]
     messages_list.append({"role": "user", "content": query})
 
-    st.write(messages_list)
+    st.markdown(f"""
+        <div class="message-container assistant-message">
+            <div class="message-header">HBW Debug</div>
+            <div class="message-content">{messages_list}</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     response, total_tokens = call_gateway_BYOM(messages_list)
     return response, total_tokens
