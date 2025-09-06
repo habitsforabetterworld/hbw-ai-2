@@ -365,8 +365,8 @@ def resolve_query(db_table, article_limit, query):
     
     knowledge_context, input_tokens_kno, output_tokens_kno = knowledge_search(db_table, article_limit, query)
 
-    system_prompt = supabase.table("habits_prompts").select("resolution_prompt").eq("id", 1).execute()
-
+    response = supabase.table("habits_prompts").select("resolution_prompt").eq("id", 1).execute()
+    system_prompt = response.data
     log(session_id, system_prompt)
     #system_prompt = system_prompt + " CONTEXT: " + knowledge_context
     #system_prompt = f"You are a helpful assistant working for Habits for a Better World. Answer the users query using only information found in the CONTEXT provided. Answer in polite, professional and conversational manner. Feel free to elaborate using the context and provide email addresses or links where relevant. If you are unable to answer their query or their query is off topic, make a clean joke (maybe a pun on what they said) then playfully guide them back to talking about Habits for a Better World. CONTEXT: {knowledge_context}"
