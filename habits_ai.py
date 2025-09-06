@@ -194,6 +194,7 @@ st.markdown("""
 
 
 ## GLOBAL Settings
+global_resolution_prompt_version = 1
 global_max_articles = 2
 global_temperature = 0.4
 global_model = "openai/gpt-oss-120b"
@@ -365,7 +366,7 @@ def resolve_query(db_table, article_limit, query):
     
     knowledge_context, input_tokens_kno, output_tokens_kno = knowledge_search(db_table, article_limit, query)
 
-    response = supabase.table("habits_prompts").select("resolution_prompt").eq("id", 1).execute()
+    response = supabase.table("habits_prompts").select("resolution_prompt").eq("id", global_resolution_prompt_version).execute()
     system_prompt = response.data[0]["resolution_prompt"]
     log(session_id, system_prompt)
     system_prompt = system_prompt + " CONTEXT: " + str(knowledge_context)
