@@ -243,7 +243,8 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
         output_tokens = response.usage.completion_tokens
         return response.choices[0].message.content.strip(), input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
-        logging.error(f"Error calling LLM Gateway: {e}") # REMEBER LOGGING DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
+        data, count = supabase.table('habits_system_logs').insert({"session_id": str(session_id), "message": e}).execute()
+        #logging.error(f"Error calling LLM Gateway: {e}") # REMEBER LOGGING DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
         return e, 0, 0
 
 
