@@ -318,7 +318,21 @@ def get_details_from_id_list(table_name, id_list):
 
 def knowledge_search(table_name, article_limit, query):
     titles = get_column_data_from_table(db_table, 'title')
-    system_prompt = f"The list provided in CONTEXT contains titles to articles relating to Habits for a Better World and their projects. Return up to {article_limit} titles that are relevant to the users message. Return them in json format including the relevant ids."
+    system_prompt = f"The list provided in CONTEXT contains titles to articles relating to Habits for a Better World and their projects. Return up to {article_limit} titles that are relevant to the users message. Return them in the following format: "
+    system_prompt = system_prompt + """
+    [
+    {
+    "id": ID,
+    "title": "TITLE"
+    },
+    {
+    "id": ID,
+    "title": "TITLE"
+    }
+    ]
+    """
+
+    
     context = "CONTEXT: " + str(titles)
     response, input_tokens, output_tokens = call_gateway(system_prompt, context, query)
     
