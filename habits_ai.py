@@ -259,8 +259,8 @@ def call_gateway_BYOM(messages_list):
         )
         
         #total_tokens = response.usage.total_tokens
-        input_tokens = response.usage.input_tokens
-        output_tokens = response.usage.output_tokens
+        input_tokens = response.usage.prompt_tokens
+        output_tokens = response.usage.completion_tokens
         return response.choices[0].message.content.strip(), input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
         logging.error(f"Error calling LLM Gateway BYOM: {e}")
