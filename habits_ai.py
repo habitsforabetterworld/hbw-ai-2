@@ -225,6 +225,17 @@ if 'messages' not in st.session_state:
 
 
 
+
+# --- Logging
+
+def log(session_id, message):
+    """ System log message"""
+    data, count = supabase.table('habits_system_logs').insert({"session_id": str(session_id), "message": message}).execute()
+
+
+
+
+
 def call_gateway(system_prompt, assistant_prompt, user_prompt):
     """Calls the LLM Gateway with system, assistant, and user prompts."""
     try:
@@ -243,8 +254,7 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
         output_tokens = response.usage.completion_tokens
         return response.choices[0].message.content.strip(), input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
-        data, count = supabase.table('habits_system_logs').insert({"session_id": str(session_id), "message": e}).execute()
-        #logging.error(f"Error calling LLM Gateway: {e}") # REMEBER LOGGING DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
+        log(session_id, e)
         return e, 0, 0
 
 
