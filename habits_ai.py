@@ -196,6 +196,7 @@ st.markdown("""
 ## GLOBAL Settings
 global_max_articles = 2
 global_temperature = 0.4
+global_model = "openai/gpt-oss-120b"
 
 
 ## Global Variables
@@ -243,8 +244,7 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
                 {"role": "user", "content": user_prompt}
             ]
         response = client.chat.completions.create(
-            model="openai/gpt-oss-120b",
-            #model="gpt-4o-mini",
+            model=global_model,
             messages=messages,
             temperature=global_temperature
         )
@@ -264,8 +264,7 @@ def call_gateway_BYOM(messages_list):
     """Calls the LLM Gateway with a custom list of messages."""
     try:
         response = client.chat.completions.create(
-            #model="gpt-4o-mini",
-            model="openai/gpt-oss-120b",
+            model=global_model,
             messages=messages_list,
             temperature=global_temperature
         )
