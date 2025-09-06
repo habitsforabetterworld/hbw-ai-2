@@ -10,17 +10,11 @@ import os
 from openai import OpenAI
 #from openai import AzureOpenAI
 
-import logging # REMEBER LOGGIN DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
 
 
 ######### THINGS TO IMPROVE
 
 # Code clean up
-# Logging will not work here for failures
-
-
-
-
 
 # Custom CSS for modern chat interface
 st.markdown("""
