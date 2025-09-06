@@ -257,8 +257,11 @@ def call_gateway_BYOM(messages_list):
             messages=messages_list,
             temperature=0.4
         )
-        total_tokens = response.usage.total_tokens
-        return response.choices[0].message.content.strip(), total_tokens
+        
+        #total_tokens = response.usage.total_tokens
+        input_tokens = response.usage.input_tokens
+        output_tokens = response.usage.output_tokens
+        return response.choices[0].message.content.strip(), input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
         logging.error(f"Error calling LLM Gateway BYOM: {e}")
         return None, 0
