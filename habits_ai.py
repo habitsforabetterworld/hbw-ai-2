@@ -331,7 +331,7 @@ def knowledge_search(table_name, article_limit, query):
         except TypeError as e:
             return None
     else:
-        return None
+        return None, 0, 0
     
     if id_list:
         knowledge_context = get_details_from_id_list(table_name, id_list), input_tokens, output_tokens
