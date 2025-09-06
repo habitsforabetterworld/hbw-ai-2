@@ -270,12 +270,12 @@ def call_gateway_BYOM(messages_list):
             temperature=0.4
         )
         
-        #total_tokens = response.usage.total_tokens
         input_tokens = response.usage.prompt_tokens
         output_tokens = response.usage.completion_tokens
+        log(session_id, "Successfully Called Gateway: " + str(messages_list))
         return response.choices[0].message.content.strip(), input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
-        logging.error(f"Error calling LLM Gateway BYOM: {e}") # REMEBER LOGGING DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
+        log(session_id, e)
         return e, 0, 0
 
 # Database setup
