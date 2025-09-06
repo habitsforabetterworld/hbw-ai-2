@@ -202,6 +202,12 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
+## GLOBAL VARIABLES
+
+global_messages = []
+global_input_tokens = 0
+global_output_tokens = 0
+
 
 ### SESSION ID Module ###
 if 'key' not in st.session_state:
@@ -319,17 +325,23 @@ def knowledge_search(table_name, article_limit, query):
         knowledge_context = []
     return knowledge_context
 
+
 def resolve_query(db_table, article_limit, query):
+    
+    global global_messages
+    
     knowledge_context = knowledge_search(db_table, article_limit, query)
     system_prompt = f"You are a helpful assistant working for Habits for a Better World. Answer the users query using only information found in the CONTEXT provided. Answer in polite, professional and conversational manner. Feel free to elaborate using the context and provide email addresses or links where relevant. If you are unable to answer their query or their query is off topic, make a clean joke (maybe a pun on what they said) then playfully guide them back to talking about Habits for a Better World. CONTEXT: {knowledge_context}"
     
     messages_list = [{"role": "system", "content": system_prompt}]
     messages_list.append({"role": "user", "content": query})
 
-    
+    global_messages = messages_list
     response, total_tokens = call_gateway_BYOM(messages_list)
     return response, total_tokens
 
+
+##### - NOT CURRENTLY USED #### VVVVV
 def log_conversation_to_supabase(session_id, user_query, llm_response, total_tokens):
     """Log conversation to Supabase database"""
     try:
@@ -345,6 +357,8 @@ def log_conversation_to_supabase(session_id, user_query, llm_response, total_tok
     except Exception as e:
         st.write(f"Error logging conversation: {e}")
         return False
+##### - NOT CURRENTLY USED #### ^^^^
+
 
 # Main UI
 
@@ -426,7 +440,7 @@ if user_input:
         #    llm_response=ai_response,
         #    total_tokens=total_tokens
         #)
-        data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_name": "", "user_query": user_input, "llm_response": ai_response, "full_prompt": ""}).execute()
+        data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_name": "", "user_query": user_input, "llm_response": ai_response, "full_prompt": "", "messages": global_messages}).execute()
     else:
         error_message = "I'm sorry, I couldn't process your request at the moment. Please try again."
         st.session_state.messages.append({"role": "assistant", "content": error_message})
@@ -438,7 +452,7 @@ if user_input:
         #    llm_response=error_message,
         #    total_tokens=0
         #)
-        data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_name": "", "user_query": user_input, "llm_response": error_message, "full_prompt": ""}).execute()
+        data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_name": "", "user_query": user_input, "llm_response": error_message, "full_prompt": "", "messages": global_messages}).execute()
     
     # Rerun to display the new messages
     st.rerun()
