@@ -250,10 +250,10 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
             messages=messages,
             temperature=0.4
         )
-        #total_tokens = response.usage.total_tokens
+        
         input_tokens = response.usage.prompt_tokens
         output_tokens = response.usage.completion_tokens
-        log(session_id, "Successfully Called Gateway: " + messages)
+        log(session_id, "Successfully Called Gateway: " + str(messages))
         return response.choices[0].message.content.strip(), input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
         log(session_id, e)
