@@ -327,9 +327,9 @@ def knowledge_search(table_name, article_limit, query):
             response_data = json.loads(json_string)
             id_list = [item['id'] for item in response_data]
         except json.JSONDecodeError as e:
-            return e, 0, 0
+            return None, 0, 0
         except TypeError as e:
-            return e, 0, 0
+            return None, 0, 0
     else:
         return None, 0, 0
     
