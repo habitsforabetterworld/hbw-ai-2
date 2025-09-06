@@ -383,23 +383,6 @@ def resolve_query(db_table, article_limit, query):
     return response, total_input_tokens, total_output_tokens
 
 
-##### - NOT CURRENTLY USED #### VVVVV
-def log_conversation_to_supabase(session_id, user_query, llm_response, total_tokens):
-    """Log conversation to Supabase database"""
-    try:
-        data, count = supabase.table('habits_conversation_logs').insert({
-            "session_id": str(session_id),
-           # "user_name": "",  # You can modify this if you have user authentication
-            "user_query": user_query,
-            "llm_response": llm_response,
-            #"full_prompt": "",
-            "total_tokens": total_tokens
-        }).execute()
-        return True
-    except Exception as e:
-        st.write(f"Error logging conversation: {e}") # REMEBER LOGGING DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
-        return False
-##### - NOT CURRENTLY USED #### ^^^^
 
 
 # Main UI
