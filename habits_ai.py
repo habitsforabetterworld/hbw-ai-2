@@ -21,7 +21,15 @@ from supabase import create_client, Client
 import json, logging, os, requests
 from openai import OpenAI
 
-import logging
+import logging # REMEBER LOGGIN DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
+
+
+######### THINGS TO IMPROVE
+
+# Code clean up
+# Logging will not work here for failures
+
+
 
 
 
@@ -202,13 +210,20 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-## GLOBAL VARIABLES
-
-global_messages = []
+## GLOBAL Settings
 global_max_articles = 2
 
 
-### SESSION ID Module ###
+## Global Variables
+global_messages = []
+
+
+# --- 🤖 Groq Config ---
+groq_key = st.secrets["groq_key"]
+client = OpenAI(api_key=groq_key, base_url="https://api.groq.com/openai/v1")
+
+
+# --- Session ID
 if 'key' not in st.session_state:
     st.session_state['key'] = uuid.uuid4()
     session_id = uuid.uuid4()
@@ -219,13 +234,7 @@ else:
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
-# --- 🤖 Groq Config ---
-#groq_key = "gsk_----"
-groq_key = st.secrets["groq_key"]
-client = OpenAI(api_key=groq_key, base_url="https://api.groq.com/openai/v1")
-#client = OpenAI(api_key=groq_key, base_url="https://api.openai.com/v1")
 
-#idToken = st.secrets["llm_gateway_token"]
 
 def call_gateway(system_prompt, assistant_prompt, user_prompt):
     """Calls the LLM Gateway with system, assistant, and user prompts."""
@@ -245,8 +254,9 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
         output_tokens = response.usage.completion_tokens
         return response.choices[0].message.content.strip(), input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
-        logging.error(f"Error calling LLM Gateway: {e}")
+        logging.error(f"Error calling LLM Gateway: {e}") # REMEBER LOGGING DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
         return None, 0
+
 
 def call_gateway_BYOM(messages_list):
     """Calls the LLM Gateway with a custom list of messages."""
@@ -263,7 +273,7 @@ def call_gateway_BYOM(messages_list):
         output_tokens = response.usage.completion_tokens
         return response.choices[0].message.content.strip(), input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
-        logging.error(f"Error calling LLM Gateway BYOM: {e}")
+        logging.error(f"Error calling LLM Gateway BYOM: {e}") # REMEBER LOGGING DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
         return None, 0
 
 # Database setup
@@ -335,6 +345,9 @@ def resolve_query(db_table, article_limit, query):
     global global_messages
     
     knowledge_context, input_tokens_kno, output_tokens_kno = knowledge_search(db_table, article_limit, query)
+
+    system_prompt = 
+    
     system_prompt = f"You are a helpful assistant working for Habits for a Better World. Answer the users query using only information found in the CONTEXT provided. Answer in polite, professional and conversational manner. Feel free to elaborate using the context and provide email addresses or links where relevant. If you are unable to answer their query or their query is off topic, make a clean joke (maybe a pun on what they said) then playfully guide them back to talking about Habits for a Better World. CONTEXT: {knowledge_context}"
     
     messages_list = [{"role": "system", "content": system_prompt}]
@@ -362,7 +375,7 @@ def log_conversation_to_supabase(session_id, user_query, llm_response, total_tok
         }).execute()
         return True
     except Exception as e:
-        st.write(f"Error logging conversation: {e}")
+        st.write(f"Error logging conversation: {e}") # REMEBER LOGGING DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
         return False
 ##### - NOT CURRENTLY USED #### ^^^^
 
