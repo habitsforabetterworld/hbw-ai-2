@@ -435,12 +435,12 @@ if user_input:
     # Get AI response with token tracking
     with st.spinner("Thinking..."):
         ai_response, total_input_tokens, total_output_tokens = resolve_query(db_table, global_max_articles, user_input)
-        total_tokens = total_input_tokens + total_output_tokens
+        
     
     # Add AI response to conversation
     if ai_response:
         st.session_state.messages.append({"role": "assistant", "content": ai_response})
-        
+        total_tokens = total_input_tokens + total_output_tokens
         # Log conversation to Supabase
         #log_conversation_to_supabase(
         #    session_id=session_id,
@@ -452,7 +452,9 @@ if user_input:
     else:
         error_message = "I'm sorry, I couldn't process your request at the moment. Please try again."
         st.session_state.messages.append({"role": "assistant", "content": error_message})
-        
+        total_input_tokens = 0
+        total_output_tokens = 0
+        total_tokens = 0
         # Log error response too
         #log_conversation_to_supabase(
         #    session_id=session_id,
