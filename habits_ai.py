@@ -253,10 +253,12 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
         
         input_tokens = response.usage.prompt_tokens
         output_tokens = response.usage.completion_tokens
-        log(session_id, "Successfully Called Gateway: " + str(messages))
-        return response.choices[0].message.content.strip(), input_tokens, output_tokens
+        response = response.choices[0].message.content.strip()
+        log(session_id, "Gateway Call Success: " + str(messages))
+        log(session_id, "Response: " + response)
+        return response, input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
-        log(session_id, e)
+        log(session_id, "Gateway Call Failure: " + e)
         return e, 0, 0
 
 
@@ -272,10 +274,12 @@ def call_gateway_BYOM(messages_list):
         
         input_tokens = response.usage.prompt_tokens
         output_tokens = response.usage.completion_tokens
+        response = response.choices[0].message.content.strip()
         log(session_id, "Successfully Called Gateway: " + str(messages_list))
-        return response.choices[0].message.content.strip(), input_tokens, output_tokens
+        log(session_id, "Response: " + response)
+        return response, input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
-        log(session_id, e)
+        log(session_id, "Gateway Call Failure: " + e)
         return e, 0, 0
 
 # Database setup
