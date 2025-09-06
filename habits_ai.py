@@ -255,7 +255,7 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
         return response.choices[0].message.content.strip(), input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
         logging.error(f"Error calling LLM Gateway: {e}") # REMEBER LOGGING DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
-        return None, 0
+        return None, 0, 0
 
 
 def call_gateway_BYOM(messages_list):
@@ -274,7 +274,7 @@ def call_gateway_BYOM(messages_list):
         return response.choices[0].message.content.strip(), input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
         logging.error(f"Error calling LLM Gateway BYOM: {e}") # REMEBER LOGGING DOES NOT WORK LIKE THIS IN STREAMLIT - CREATE FAILURE LOGS
-        return None, 0
+        return None, 0, 0
 
 # Database setup
 if 'supabase_initialized' not in globals():
