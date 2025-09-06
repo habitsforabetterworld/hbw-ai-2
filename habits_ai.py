@@ -347,8 +347,10 @@ def knowledge_search(table_name, article_limit, query):
             response_data = json.loads(json_string)
             id_list = [item['id'] for item in response_data]
         except json.JSONDecodeError as e:
+            log(session_id, "JSON Decoder Error: " + e)
             return e, 0, 0
         except TypeError as e:
+            log(session_id, "Type Error: " + e)
             return e, 0, 0
     else:
         return None, 0, 0
@@ -462,6 +464,7 @@ if 'current_query' in st.session_state:
 
 # Process user input
 if user_input:
+    log(session_id, "Query Initialized: " + user_input)
     # Add user message to conversation
     st.session_state.messages.append({"role": "user", "content": user_input})
     
@@ -474,13 +477,7 @@ if user_input:
     if ai_response:
         st.session_state.messages.append({"role": "assistant", "content": ai_response})
         total_tokens = total_input_tokens + total_output_tokens
-        # Log conversation to Supabase
-        #log_conversation_to_supabase(
-        #    session_id=session_id,
-        #    user_query=user_input,
-        #    llm_response=ai_response,
-        #    total_tokens=total_tokens
-        #)
+
         data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_query": user_input, "llm_response": ai_response, "messages": global_messages, "input_tokens": total_input_tokens, "output_tokens": total_output_tokens, "total_tokens": total_tokens}).execute()
     else:
         error_message = "I'm sorry, I couldn't process your request at the moment. Please try again."
@@ -488,13 +485,7 @@ if user_input:
         total_input_tokens = 0
         total_output_tokens = 0
         total_tokens = 0
-        # Log error response too
-        #log_conversation_to_supabase(
-        #    session_id=session_id,
-        #    user_query=user_input,
-        #    llm_response=error_message,
-        #    total_tokens=0
-        #)
+
         data, count = supabase.table('habits_conversation_logs').insert({"session_id": str(session_id), "user_query": user_input, "llm_response": error_message, "messages": global_messages, "input_tokens": total_input_tokens, "output_tokens": total_output_tokens, "total_tokens": total_tokens}).execute()
         
     # Rerun to display the new messages
