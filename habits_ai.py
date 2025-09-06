@@ -207,7 +207,7 @@ st.markdown("""
 global_messages = []
 global_input_tokens = 0
 global_output_tokens = 0
-max_articles = 2
+global_max_articles = 2
 
 
 ### SESSION ID Module ###
@@ -428,7 +428,7 @@ if user_input:
     
     # Get AI response with token tracking
     with st.spinner("Thinking..."):
-        ai_response, total_tokens = resolve_query(db_table, max_articles, user_input)
+        ai_response, total_tokens = resolve_query(db_table, global_max_articles, user_input)
     
     # Add AI response to conversation
     if ai_response:
