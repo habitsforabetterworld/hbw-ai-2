@@ -329,7 +329,7 @@ def knowledge_search(table_name, article_limit, query):
         except json.JSONDecodeError as e:
             return None, 0, 0
         except TypeError as e:
-            return None, 0, 0
+            return e, 0, 0
     else:
         return None, 0, 0
     
