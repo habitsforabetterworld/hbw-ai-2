@@ -242,8 +242,10 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
             ],
             temperature=0.4
         )
-        total_tokens = response.usage.total_tokens
-        return response.choices[0].message.content.strip(), total_tokens
+        #total_tokens = response.usage.total_tokens
+        input_tokens = response.usage.prompt_tokens
+        output_tokens = response.usage.completion_tokens
+        return response.choices[0].message.content.strip(), input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
         logging.error(f"Error calling LLM Gateway: {e}")
         return None, 0
@@ -304,7 +306,7 @@ def knowledge_search(table_name, article_limit, query):
     titles = get_column_data_from_table(db_table, 'title')
     system_prompt = f"The list provided in CONTEXT contains titles to articles relating to Habits for a Better World and their projects. Return up to {article_limit} titles that are relevant to the users message. Return them in json format including the relevant ids."
     context = "CONTEXT: " + str(titles)
-    response, _ = call_gateway(system_prompt, context, query)
+    response, input_tokens, output_tokens = call_gateway(system_prompt, context, query)
     
     id_list = []
     if response:
@@ -341,7 +343,7 @@ def resolve_query(db_table, article_limit, query):
     messages_list.append({"role": "user", "content": query})
 
     global_messages = messages_list
-    response, total_tokens = call_gateway_BYOM(messages_list)
+    response, input_tokens, output_tokens = call_gateway_BYOM(messages_list)
     return response, total_tokens
 
 
