@@ -21,7 +21,7 @@ global_model = "openai/gpt-oss-120b"
 
 ######### THINGS TO IMPROVE
 
-
+# ERRORS Dump in to prompt as e. Add a classifier and capture failure before hitting the prompt for a manual fallback or dump None / null?
 
 
 
