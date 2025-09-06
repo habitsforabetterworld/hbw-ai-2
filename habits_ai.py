@@ -195,6 +195,7 @@ st.markdown("""
 
 ## GLOBAL Settings
 global_max_articles = 2
+global_temperature = 0.4
 
 
 ## Global Variables
@@ -245,7 +246,7 @@ def call_gateway(system_prompt, assistant_prompt, user_prompt):
             model="openai/gpt-oss-120b",
             #model="gpt-4o-mini",
             messages=messages,
-            temperature=0.4
+            temperature=global_temperature
         )
         
         input_tokens = response.usage.prompt_tokens
@@ -266,7 +267,7 @@ def call_gateway_BYOM(messages_list):
             #model="gpt-4o-mini",
             model="openai/gpt-oss-120b",
             messages=messages_list,
-            temperature=0.4
+            temperature=global_temperature
         )
         
         input_tokens = response.usage.prompt_tokens
