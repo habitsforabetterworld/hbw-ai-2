@@ -344,7 +344,7 @@ def resolve_query(db_table, article_limit, query):
 
     global_messages = messages_list
     response, input_tokens, output_tokens = call_gateway_BYOM(messages_list)
-    return response, total_tokens
+    return response, input_tokens, output_tokens
 
 
 ##### - NOT CURRENTLY USED #### VVVVV
@@ -433,7 +433,7 @@ if user_input:
     
     # Get AI response with token tracking
     with st.spinner("Thinking..."):
-        ai_response, total_tokens = resolve_query(db_table, global_max_articles, user_input)
+        ai_response, input_tokens, output_tokens = resolve_query(db_table, global_max_articles, user_input)
     
     # Add AI response to conversation
     if ai_response:
