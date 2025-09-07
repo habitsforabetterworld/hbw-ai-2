@@ -52,11 +52,12 @@ st.markdown("""
         border-bottom: 1px solid #e5e7eb;
         text-align: center;
     }
-    
+
+    /*   color: #1f2937; */
     .chat-title {
         font-size: 1.25rem;
         font-weight: 600;
-        color: #1f2937;
+        color: #4DA3FF;
         margin: 0;
         display: flex;
         align-items: center;
