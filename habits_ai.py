@@ -280,7 +280,7 @@ def call_gateway_BYOM(messages_list):
         input_tokens = response.usage.prompt_tokens
         output_tokens = response.usage.completion_tokens
         response = response.choices[0].message.content.strip()
-        log(session_id, "Successfully Called Gateway: " + str(messages_list))
+        log(session_id, "Gateway Call Success: " + str(messages_list))
         log(session_id, "Response: " + response)
         return response, input_tokens, output_tokens
     except requests.exceptions.RequestException as e:
