@@ -12,7 +12,7 @@ from openai import OpenAI
 
 
 ## GLOBAL Settings
-global_resolution_prompt_version = 1
+global_resolution_prompt_version = 2
 global_max_articles = 2
 global_temperature = 0.4
 global_model = "openai/gpt-oss-120b"
