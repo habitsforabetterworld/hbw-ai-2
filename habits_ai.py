@@ -15,7 +15,23 @@ from openai import OpenAI
 global_resolution_prompt_version = 2
 global_max_articles = 2
 global_temperature = 0.4
-global_model = "openai/gpt-oss-120b"
+#global_model = "openai/gpt-oss-120b"
+global_model = "gpt-3.5-turbo"
+
+# --- 🤖 OAI Config ---
+oai_key = st.secrets["oai_key"]
+client = OpenAI(api_key=oai_key)
+
+## Initialize Global Variables
+global_messages = []
+
+
+# --- 🤖 Groq Config ---
+#groq_key = st.secrets["groq_key"]
+#client = OpenAI(api_key=groq_key, base_url="https://api.groq.com/openai/v1")
+
+
+
 
 
 
@@ -207,13 +223,8 @@ st.markdown("""
 
 
 
-## Initialize Global Variables
-global_messages = []
 
 
-# --- 🤖 Groq Config ---
-groq_key = st.secrets["groq_key"]
-client = OpenAI(api_key=groq_key, base_url="https://api.groq.com/openai/v1")
 
 
 # --- Session ID
