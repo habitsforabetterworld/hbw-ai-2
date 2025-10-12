@@ -399,7 +399,7 @@ st.markdown("""
 <div class="chat-widget">
     <div class="chat-header">
         <div class="chat-title">
-             HBW AI Assistant
+             HBW AI Assistant - 2.0
         </div>
         <div class="chat-subtitle">
             Grounded in trusted HBW sources
