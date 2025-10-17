@@ -363,7 +363,8 @@ def knowledge_search(table_name, article_limit, query):
             response_data = json.loads(json_string)
             id_list = [item['id'] for item in response_data]
         except json.JSONDecodeError as e:
-            log(session_id, "JSON Decoder Error: " + e)
+          log(session_id, "JSON Decoder Error: " + str(e))
+            #  log(session_id, "JSON Decoder Error: " + e)
             return e, 0, 0
         except TypeError as e:
             log(session_id, "Type Error: " + e)
